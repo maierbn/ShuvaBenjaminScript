@@ -8,7 +8,7 @@
 
 \setcounter{tocdepth}{2}
 
-\section{Formulation of Hyperelasticity}
+\section{Formulation of Hyperelasticity}\label{sec:1}
 
 The derivation follows the FEniCS example at \url{http://www.karlin.mff.cuni.cz/~blechta/pub/fenics-tutorial-2015/elasticity/doc.html}
 and the book of Holzapfel \cite{holzapfel2000nonlinear}.
@@ -21,7 +21,8 @@ deformation velocity $\bfV(\bfX,t) \in \R^d$ by the following equations.
   \begin{array}{rll}
     \dot{\bfU} &= \bfV & \text{in }Ω × [0,T],  \\[4mm]
     \rho_0\,\dot{\bfV} &= \Div(\bfP) + \bfB & \text{in }Ω × [0,T], \qquad(\Div(\bfP) = \p{P_{aA}}{X_A}) \\[4mm]
-    p := J - 1 &= 0,& \text{in }Ω × [0,T], \qquad \text{Lagrange multiplier for incompressiblity}\\[4mm]
+     J - 1 &= 0,& \text{in }Ω × [0,T], \qquad \text{condition for incompressiblity}\\[4mm]
+     J - 1 &= -\dfrac{p}{\lambda},& \text{in }Ω × [0,T], \qquad \text{condition for compressible problem}\\[4mm]
     \bfU = \bfV &= 0 & \text{on } Γ_D × [0,T],  \qquad \text{Dirichlet boundary condition}\\[4mm]
     \bfsigma\,\bfn &= \bft & \text{on } Γ_N × [0,T],  \qquad \text{Neumann boundary condition} \\[4mm]
     \bfsigma\,\bfn &= 0 &\text{on } Ω\backslash Γ_D \cup Γ_N × [0,T],  \qquad \text{Neumann boundary condition} \\[4mm]
@@ -41,6 +42,40 @@ where
     \mu &= E/3, \quad E = 10^5.
   \end{array}
 \end{equation}
+
+
+\subsection{Alternative Formulation}
+This formulation follows the matlab example at \url{https://de.mathworks.com/help/pde/examples/dynamic-analysis-of-a-clamped-beam.html}.
+
+We have
+\begin{equation}
+  \begin{array}{rll}
+    \bfP = \bfF\,\bfS, \quad \bff = \bfB
+  \end{array}
+\end{equation}
+The governing equation is 
+\begin{equation}
+  \begin{array}{rll}
+    \rho_0\,\ddot{\bfU} - ∇\cdot (\bfF\,\bfS) = f \\[4mm]
+    \rho_0\,\ddot{\bfU} -  ∇\cdot\big((\bfI + ∇_\bfX\bfU)\,\bfS\big) = f
+  \end{array}
+\end{equation}
+We reformulate using index notation
+\begin{equation}
+  \begin{array}{rll}
+    (\bfF\,\bfS)_{ij} = \left(\p{u_i}{x_k} + \delta_{i}\right)\,S_{kj}
+  \end{array}
+\end{equation}
+The next step is relation between stress ($\bfS$) and displacement ($\bfU$). By combining the equations in Sec.\ref{sec:1} we get:
+\begin{equation}
+  \begin{array}{rll}
+    \bfS &= \bfF^{-1}\,\bfP = J\,\bfF^{-1}\,\bfsigma\,\bfF^{-\top} \\[4mm]
+    & = J\,\bfF^{-1}\,\big(-p\,\bfI + \mu\,(\bfb - \bfI)\big)\,\bfF^{-\top} = J\,\bfF^{-1}\,\big(-p\,\bfI + \mu\,(\bfF\bfF^\top - \bfI)\big)\,\bfF^{-\top} \\[4mm] 
+    \bfP_i &=J \,\bfsigma\,\bfF^{-\top} \\[4mm]
+    & = J\,\big(-p\,\bfI + \mu\,(\bfb - \bfI)\big)\,\bfF^{-\top} = J\,\big(-p_i\,\bfI + \mu\,(\bfF\bfF^\top - \bfI)\big)\,\bfF^{-\top}
+  \end{array}
+\end{equation}
+
 
 \subsection{Variational Formulation}
 
@@ -92,7 +127,7 @@ We have $\bft = t\,\d\bfs = t\,J\,\bfF^{-\top}\cdot \d\bfS$.
 In summary the weak form is given by
 \begin{equation}
   \begin{array}{rll}
-   \bfT_1 + \bfT_2 + \bfT_3 + \bfT_4 = 0,
+   \bfT_1 + \bfT_2 + \bfT_3  -\bfT_4 =0,
      \end{array}
 \end{equation}
 with
@@ -104,8 +139,12 @@ with
     \bfT_4 &= \ds\int_{Γ_N} J\,\bfF^{-\top}\,\bft\cdot \bfphi_v\,\d\bfS
   \end{array}
 \end{equation}
-
+Remark: The ansatz functions $\bfphi_u, \bfphi_v$ are vector-valued.
 \nocite{*}
+
+To do: find out the boundary nodes from the mesh.
+-integrate vector f
+
 \bibliography{literature}{}
 \bibliographystyle{abbrv}
 \end{document}
