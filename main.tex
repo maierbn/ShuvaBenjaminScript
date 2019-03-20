@@ -92,7 +92,7 @@ We have $\bft = t\,\d\bfs = t\,J\,\bfF^{-\top}\cdot \d\bfS$.
 In summary the weak form is given by
 \begin{equation}
   \begin{array}{rll}
-   \bfT_1 + \bfT_2 + \bfT_3 + \bfT_4 = 0,
+   \bfT_1 + \bfT_2 + \bfT_3 - \bfT_4 = 0,
      \end{array}
 \end{equation}
 with
@@ -104,6 +104,27 @@ with
     \bfT_4 &= \ds\int_{Γ_N} J\,\bfF^{-\top}\,\bft\cdot \bfphi_v\,\d\bfS
   \end{array}
 \end{equation}
+\subsection{Static problem}
+For the static problem we assume
+\begin{equation*}
+  \begin{array}{lll}
+    \bfV^{(i)} = \bfzero, \qquad \bfU^{(i+1)} = \bfU^{(i)}.
+  \end{array}
+\end{equation*}
+We get the equations
+\begin{equation*}
+  \begin{array}{lll}
+    \bfT_1 &= \bfzero\\[4mm]
+    \bfT_2 &= \,\ds\int_Ω\big(  θ\,\bfP^{(i+1)}\,∇\bfphi_v + (1-θ)\,\bfP^{(i)}\,∇\bfphi_v\big) \,\d\bfX\\[4mm]
+    \bfT_3 &= \ds\int_Ω \big(θ\, p^{(i+1)}+(1-θ)\, p^{(i)}\big)\,\bfphi_p\,\d\bfX\\[4mm]
+    \bfT_4 &= \ds\int_{Γ_N} J\,\bfF^{-\top}\,\bft\cdot \bfphi_v\,\d\bfS,
+  \end{array}
+\end{equation*}
+\begin{equation*}
+  \begin{array}{lll}
+    \bfT_2 + \bfT_3 = \bfT_4
+  \end{array}
+\end{equation*}
 
 \nocite{*}
 \bibliography{literature}{}
